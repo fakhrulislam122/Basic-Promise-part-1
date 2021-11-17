@@ -1,0 +1,63 @@
+// in Promse , have three types value
+// pending == when dont resolved and rejected
+// resolve == when keep the promise
+// rejected =  when dont keep the promise
+
+//  ===================================================///
+
+let promise = new Promise((resolve, reject) => {});
+
+console.log(promise); // for this promise we dont resolve any code or reject ,  , we just make promise . so this promise wil be pending
+
+//====================================================================
+
+async function promse1() {
+  return "resolved"; // this function return promise
+}
+
+//   promise1  ===   promise2 , both function return promise as resolved
+async function promise2() {
+  return Promise.resolve(" promise  2 resolve ");
+}
+
+promise2().then((res) => console.log(res));
+promse1().then((res) => console.log(res));
+
+Promise.all([promse1(), promise2()]).then((res) => console.log(res));
+Promise.all([promse1(), promise2()]).then(([res1, res2]) => {
+  console.log(res1);
+});
+
+// ======================================================================================
+
+let p = new Promise((resolve, reject) => {
+  let x = 5;
+  if (x === 5) {
+    resolve(10);
+  } else {
+    reject(new Error("can not calculate"));
+  }
+});
+
+function A(value) {
+  let value1 = value;
+  let sum = 5 + value1;
+  return Promise.resolve(sum);
+}
+
+function B(value2) {
+  return Promise.resolve(value2 + 3);
+}
+
+p.then(A) // this also promise , but here  we can first promise result in the 2nd promise and 2nd promise result in the 3rd  primise
+  .then(B)
+  .then((res) => console.log(res)); // here P is a promsie ,
+
+async function handleCal() {
+  let x = await p;
+  let y = await A(x);
+  let z = await B(y);
+  console.log(z);
+}
+
+handleCal();
